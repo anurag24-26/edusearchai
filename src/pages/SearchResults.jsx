@@ -72,7 +72,7 @@ export default function SearchResults() {
     <div className={`${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"} min-h-screen`}>
       {/* Navbar */}
       <nav className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 shadow-md">
-        <h1 className="text-3xl font-bold text-blue-600">EduSearch AI</h1>
+        <h1 className="text-3xl font-bold text-blue-600">EduSearch</h1>
         <form onSubmit={handleSearch} className="relative flex-1 mx-4">
           <input
             type="text"
