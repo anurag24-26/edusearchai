@@ -140,7 +140,7 @@ export default function SearchResults() {
           onSubmit={handleSearch}
           className="relative flex w-full bg-gray-800 p-3 rounded-lg shadow-lg border border-gray-700"
         >
-          <SearchIcon className="absolute left-3 top-6 h-5 w-5 text-gray-400" />
+          
           <input
             type="text"
             className="w-full pl-10 pr-20 py-3 bg-gray-700 text-white rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-400 transition-all"
