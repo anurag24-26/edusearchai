@@ -5,8 +5,10 @@ import SkeletonLoader from "../components/SkeletonLoader";
 
 export default function SearchResults() {
   const [searchParams] = useSearchParams();
-  const queryParam = searchParams.get("q") || ""; // Preserve query from URL
-  const [query, setQuery] = useState(queryParam); // Local state for input field
+  const queryParam = searchParams.get("q") || "";
+  const languageParam = searchParams.get("lang") || "English"; // Default to English
+  const [query, setQuery] = useState(queryParam);
+  const [language, setLanguage] = useState(languageParam);
   const [results, setResults] = useState("");
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -30,7 +32,7 @@ export default function SearchResults() {
                   role: "user",
                   parts: [
                     {
-                      text: `Provide short, educational summaries about: ${queryParam}`,
+                      text: `Provide short, educational summaries about: ${queryParam} in ${languageParam}`,
                     },
                   ],
                 },
@@ -60,12 +62,12 @@ export default function SearchResults() {
     };
 
     fetchResults();
-  }, [queryParam]); // Only fetch when the URL query changes
+  }, [queryParam, languageParam]); // Only fetch when the URL query changes
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (query.trim() !== "") {
-      navigate(`/search?q=${encodeURIComponent(query)}`);
+      navigate(`/search?q=${encodeURIComponent(query)}&lang=${language}`);
     }
   };
 
@@ -99,6 +101,19 @@ export default function SearchResults() {
             Search
           </button>
         </form>
+
+        {/* Language Selector */}
+        <select
+          className="ml-4 p-2 bg-gray-700 text-white border border-gray-500 rounded-lg"
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+        >
+          <option value="English">English</option>
+          <option value="Hindi">Hindi</option>
+          <option value="Spanish">Spanish</option>
+          <option value="French">French</option>
+          <option value="German">German</option>
+        </select>
       </nav>
 
       {/* Search Results */}
