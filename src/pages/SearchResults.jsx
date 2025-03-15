@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { SearchIcon } from "@heroicons/react/outline";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm"; // Supports GitHub Flavored Markdown (tables, code blocks)
 import SkeletonLoader from "../components/SkeletonLoader";
 
 export default function SearchResults() {
@@ -32,7 +34,7 @@ export default function SearchResults() {
                   role: "user",
                   parts: [
                     {
-                      text: `Provide short, educational summaries about: ${queryParam} in ${languageParam}`,
+                      text: `Provide a structured, educational response about ${queryParam} in ${languageParam}. If relevant, include code snippets in proper markdown format.`,
                     },
                   ],
                 },
@@ -76,7 +78,7 @@ export default function SearchResults() {
       {/* Navbar */}
       <nav className="flex items-center justify-between p-4 bg-gray-800 shadow-md">
         <h1
-          className="text-3xl text-center font-extrabold "
+          className="text-3xl text-center font-extrabold cursor-pointer"
           onClick={() => navigate(`/`)}
         >
           <span className="text-blue-400">Ed</span>
@@ -126,15 +128,24 @@ export default function SearchResults() {
           <SkeletonLoader />
         ) : (
           <div className="bg-gray-800 shadow-md rounded-lg p-6 border border-gray-600 hover:scale-[1.02] transition-transform">
-            <p
-              className="text-lg text-gray-300"
-              dangerouslySetInnerHTML={{
-                __html: results.replace(
-                  /\*\*(.*?)\*\*/g,
-                  "<strong>$1</strong>"
+            {/* Render Markdown safely */}
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                pre: ({ children }) => (
+                  <pre className="bg-gray-900 p-4 rounded-lg overflow-x-auto">
+                    {children}
+                  </pre>
+                ),
+                code: ({ children }) => (
+                  <code className="bg-gray-700 text-green-400 p-1 rounded">
+                    {children}
+                  </code>
                 ),
               }}
-            ></p>
+            >
+              {results}
+            </ReactMarkdown>
           </div>
         )}
       </div>
