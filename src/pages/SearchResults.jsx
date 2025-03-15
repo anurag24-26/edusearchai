@@ -74,7 +74,7 @@ export default function SearchResults() {
   };
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen transition-all">
+    <div className="bg-gray-900 text-white min-h-screen flex flex-col transition-all">
       {/* Navbar */}
       <nav className="flex items-center justify-between p-4 bg-gray-800 shadow-md">
         <h1
@@ -87,26 +87,10 @@ export default function SearchResults() {
           <span className="text-red-400">rc</span>
           <span className="text-orange-400">h</span>
         </h1>
-        <form onSubmit={handleSearch} className="relative flex w-full max-w-lg">
-          <input
-            type="text"
-            className="w-full p-3 pl-10 rounded-lg bg-gray-700 text-white border border-gray-500 focus:ring-2 focus:ring-blue-400 transition-all"
-            placeholder="Search again..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)} // Only update local state
-          />
-          <SearchIcon className="absolute left-3 top-4 h-5 w-5 text-gray-400" />
-          <button
-            type="submit"
-            className="ml-2 px-4 py-2 bg-blue-500 rounded-lg text-white hover:bg-blue-400 transition-all"
-          >
-            Search
-          </button>
-        </form>
 
         {/* Language Selector */}
         <select
-          className="ml-4 p-2 bg-gray-700 text-white border border-gray-500 rounded-lg"
+          className="p-2 bg-gray-700 text-white border border-gray-500 rounded-lg"
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
         >
@@ -119,7 +103,7 @@ export default function SearchResults() {
       </nav>
 
       {/* Search Results */}
-      <div className="container mx-auto px-6 py-6">
+      <div className="container mx-auto px-6 py-6 flex-grow">
         <h1 className="text-xl font-bold mb-4">
           AI Search Results for "{queryParam}"
         </h1>
@@ -148,6 +132,29 @@ export default function SearchResults() {
             </ReactMarkdown>
           </div>
         )}
+      </div>
+
+      {/* Search Bar at Bottom (for Mobile UI) */}
+      <div className="fixed bottom-4 left-0 w-full px-4">
+        <form
+          onSubmit={handleSearch}
+          className="relative flex w-full bg-gray-800 p-3 rounded-lg shadow-lg border border-gray-700"
+        >
+          <SearchIcon className="absolute left-3 top-6 h-5 w-5 text-gray-400" />
+          <input
+            type="text"
+            className="w-full pl-10 pr-20 py-3 bg-gray-700 text-white rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-400 transition-all"
+            placeholder="Search..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)} // Only update local state
+          />
+          <button
+            type="submit"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 px-4 py-2 bg-blue-500 rounded-lg text-white hover:bg-blue-400 transition-all"
+          >
+            Search
+          </button>
+        </form>
       </div>
     </div>
   );
