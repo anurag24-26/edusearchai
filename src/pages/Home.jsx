@@ -5,12 +5,14 @@ import { SearchIcon, MoonIcon, SunIcon } from "@heroicons/react/outline";
 export default function Home() {
   const [query, setQuery] = useState("");
   const [darkMode, setDarkMode] = useState(true); // Dark mode enabled by default
+
+  const [language, setLanguage] = useState("English"); // Default language
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (query.trim() !== "") {
-      navigate(`/search?q=${encodeURIComponent(query)}`);
+      navigate(`/search?q=${encodeURIComponent(query)}&lang=${language}`);
     }
   };
 
@@ -58,6 +60,18 @@ export default function Home() {
           />
           <SearchIcon className="absolute left-4 top-4 h-5 w-5 text-gray-600 dark:text-gray-300" />
         </div>
+        {/* Language Selector */}
+        <select
+          className="mt-3 w-full p-3 bg-gray-700 text-white border border-gray-500 rounded-lg"
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+        >
+          <option value="English">English</option>
+          <option value="Hindi">Hindi</option>
+          <option value="Spanish">Spanish</option>
+          <option value="French">French</option>
+          <option value="German">German</option>
+        </select>
       </form>
 
       {/* Quick Search Buttons */}
