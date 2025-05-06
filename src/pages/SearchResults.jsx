@@ -8,7 +8,7 @@ import SkeletonLoader from "../components/SkeletonLoader";
 export default function SearchResults() {
   const [searchParams] = useSearchParams();
   const queryParam = searchParams.get("q") || "";
-  const languageParam = searchParams.get("lang") || "English"; // Default to English
+  const languageParam = searchParams.get("lang") || "English";
   const [query, setQuery] = useState(queryParam);
   const [language, setLanguage] = useState(languageParam);
   const [results, setResults] = useState("");
@@ -64,7 +64,7 @@ export default function SearchResults() {
     };
 
     fetchResults();
-  }, [queryParam, languageParam]); // Only fetch when the URL query changes
+  }, [queryParam, languageParam]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -74,7 +74,7 @@ export default function SearchResults() {
   };
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen flex flex-col transition-all">
+    <div className="bg-gray-900 text-white min-h-screen flex flex-col">
       {/* Navbar */}
       <nav className="flex items-center justify-between p-4 bg-gray-800 shadow-md">
         <h1
@@ -88,7 +88,6 @@ export default function SearchResults() {
           <span className="text-orange-400">h</span>
         </h1>
 
-        {/* Language Selector */}
         <select
           className="p-2 bg-gray-700 text-white border border-gray-500 rounded-lg"
           value={language}
@@ -102,17 +101,18 @@ export default function SearchResults() {
         </select>
       </nav>
 
-      {/* Search Results */}
-      <div className="container mx-auto px-6 py-6 flex-grow">
-        <h1 className="text-xl font-bold mb-4">
-          AI Search Results for "{queryParam}"
-        </h1>
+      {/* Chat Interface */}
+      <div className="flex flex-col px-4 py-6 gap-4 flex-grow overflow-y-auto">
+        {/* User Message Bubble */}
+        {queryParam && (
+          <div className="self-end max-w-[80%] bg-blue-600 text-white p-4 rounded-xl rounded-br-none shadow-md">
+            {queryParam}
+          </div>
+        )}
 
-        {loading ? (
-          <SkeletonLoader />
-        ) : (
-          <div className="bg-gray-800 shadow-md rounded-lg p-6 border border-gray-600 hover:scale-[1.02] transition-transform">
-            {/* Render Markdown safely */}
+        {/* Assistant Message Bubble */}
+        {!loading && (
+          <div className="self-start max-w-[80%] bg-gray-700 text-white p-4 rounded-xl rounded-bl-none shadow-md">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
@@ -122,7 +122,7 @@ export default function SearchResults() {
                   </pre>
                 ),
                 code: ({ children }) => (
-                  <code className="bg-gray-700 text-green-400 p-1 rounded">
+                  <code className="bg-gray-800 text-green-400 px-1 py-0.5 rounded">
                     {children}
                   </code>
                 ),
@@ -132,27 +132,28 @@ export default function SearchResults() {
             </ReactMarkdown>
           </div>
         )}
+
+        {loading && <SkeletonLoader />}
       </div>
 
-      {/* Search Bar at Bottom (for Mobile UI) */}
-      <div className="fixed bottom-4 left-0 w-full px-4">
+      {/* Chat Input */}
+      <div className="w-full p-4 bg-gray-900 border-t border-gray-700">
         <form
           onSubmit={handleSearch}
-          className="relative flex w-full bg-gray-800 p-3 rounded-lg shadow-lg border border-gray-700"
+          className="flex items-center gap-2 bg-gray-800 rounded-full px-4 py-2 border border-gray-600 shadow-md"
         >
-          
           <input
             type="text"
-            className="w-full pl-10 pr-20 py-3 bg-gray-700 text-white rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-400 transition-all"
-            placeholder="Search..."
+            placeholder="Send a message..."
             value={query}
-            onChange={(e) => setQuery(e.target.value)} // Only update local state
+            onChange={(e) => setQuery(e.target.value)}
+            className="flex-grow bg-transparent text-white outline-none px-2"
           />
           <button
             type="submit"
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 px-4 py-2 bg-blue-500 rounded-lg text-white hover:bg-blue-400 transition-all"
+            className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-400 transition-all"
           >
-            Search
+            Send
           </button>
         </form>
       </div>
