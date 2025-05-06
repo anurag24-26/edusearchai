@@ -34,7 +34,7 @@ export default function SearchResults() {
                   role: "user",
                   parts: [
                     {
-                      text: `Explain '${queryParam}' in a clear, structured, and educational manner using ${languageParam}. If the topic involves programming, technical implementation, or examples that benefit from code, include well-formatted code snippets using markdown. Otherwise, keep the explanation concise and informative.`,
+                      text: `Explain the topic '${queryParam}' in a structured, educational, and language-appropriate way using ${languageParam}. If the topic naturally involves technical or programming concepts, include relevant and concise code snippets in markdown format. Otherwise, avoid using code and focus on conceptual clarity.`,
                     },
                   ],
                 },
