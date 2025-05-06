@@ -34,7 +34,7 @@ export default function SearchResults() {
                   role: "user",
                   parts: [
                     {
-                      text: `Provide a structured, educational response about ${queryParam} in ${languageParam}. If relevant, include code snippets in proper markdown format.`,
+                      text: `Explain '${queryParam}' in a clear, structured, and educational manner using ${languageParam}. If the topic involves programming, technical implementation, or examples that benefit from code, include well-formatted code snippets using markdown. Otherwise, keep the explanation concise and informative.`,
                     },
                   ],
                 },
